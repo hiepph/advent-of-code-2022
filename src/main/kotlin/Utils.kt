@@ -13,6 +13,13 @@ fun readLines(name: String, env: String = "main"): List<String> =
     readInput(name, env).lines()
 
 /**
+ * Printing results of part1 and part 2.
+ */
+fun printResult(part: String, result: Any?) {
+    println("Part $part: $result")
+}
+
+/**
  * Converts string to md5 hash.
  */
 fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteArray()))

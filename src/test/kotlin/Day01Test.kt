@@ -13,6 +13,7 @@ class Day01Test {
 
     @Test
     fun testPart2() {
-
+        assertEquals(expected = 45000, actual = Day01.part2(testInput))
+        assertEquals(expected = 206582, actual = Day01.part2(input))
     }
 }
