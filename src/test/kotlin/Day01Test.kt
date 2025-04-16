@@ -1,3 +1,4 @@
+import day01.Day01
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 

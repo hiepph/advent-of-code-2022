@@ -1,3 +1,4 @@
+import day02.Day02
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
@@ -11,8 +12,9 @@ class Day02Test {
         assertEquals(expected = 11603, actual = Day02.part1(input))
     }
 
-//    @Test
-//    fun testPart2() {
-//        assertEquals(expected = 45000, actual = Day02.part2(testInput))
-//    }
+    @Test
+    fun testPart2() {
+        assertEquals(expected = 12, actual = Day02.part2(testInput))
+        assertEquals(expected = 12725, actual = Day02.part2(input))
+    }
 }

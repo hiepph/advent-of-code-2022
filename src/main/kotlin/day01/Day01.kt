@@ -1,3 +1,8 @@
+package day01
+
+import printResult
+import readInput
+
 object Day01 {
     fun part1(input: String): Int {
         return splitCalories(input)
