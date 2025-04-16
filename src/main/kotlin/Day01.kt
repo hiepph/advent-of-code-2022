@@ -17,7 +17,6 @@ object Day01 {
 }
 
 fun main() {
-//    val input = readInput("Day01")
-    val input = readInput("Day01", env="test")
+    val input = readInput("Day01")
     Day01.part1(input).println()
 }
