@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 class Day01Test {
-    val input = readTestInput("Day01_test")
+    val input = readInput("Day01", env="test")
 
     @Test
     fun testPart1() {

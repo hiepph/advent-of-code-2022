@@ -1,15 +1,23 @@
 object Day01 {
-    fun part1(input: List<String>): Int {
-        return 0
+    fun part1(input: String): Int {
+        return input.split("\n\n")
+            .map { calculateCalories(it) }
+            .max()
     }
 
-    fun part2(input: List<String>): Int {
-        return 0
+    private fun calculateCalories(caloriesLines: String): Int {
+        return caloriesLines.lines()
+            .map { it.toInt() }
+            .sum()
     }
+
+//    fun part2(input: List<String>): Int {
+//        return 0
+//    }
 }
 
 fun main() {
-    // Read the input from the `src/Day01.txt` file.
-    val input = readInput("Day01")
-    println(Day01.part1(input))
+//    val input = readInput("Day01")
+    val input = readInput("Day01", env="test")
+    Day01.part1(input).println()
 }
