@@ -3,18 +3,12 @@ package day02
 import printResult
 import readLines
 
-enum class Rps(
-    val score: Int
-) {
+enum class Rps(val score: Int) {
     ROCK(1), PAPER(2), SCISSOR(3);
-    fun score() = score
 }
 
-enum class Result(
-    val score: Int
-) {
+enum class Result(val score: Int) {
     WIN(6), DRAW(3), LOSE(0);
-    fun score() = score
 }
 
 interface ChoiceDecryption<T> {
@@ -54,72 +48,50 @@ object PlayerChoiceDecryption2 : ChoiceDecryption<Result> {
 }
 
 object Day02 {
-    private const val winningScore = 6
-    private const val drawingScore = 3
-    private const val losingScore = 0
-
     fun part1(lines: List<String>): Int {
-        return lines.map { calculateRoundScore(it, OpponentChoiceDecryption, PlayerChoiceDecryption) }.sum()
+        return lines.map { calculateRoundScore(it) }.sum()
     }
 
     fun part2(lines: List<String>): Int {
-        return lines.map { calculateRoundScore2(it, OpponentChoiceDecryption, PlayerChoiceDecryption2) }.sum()
+        return lines.map { calculateRoundScore2(it) }.sum()
     }
 
-    private fun calculateRoundScore(round: String,
-                                    opponentChoiceDecryption: ChoiceDecryption<Rps>,
-                                    playerChoiceDecryption: ChoiceDecryption<Rps>
-    ): Int {
+    private fun calculateRoundScore(round: String): Int {
         val (opponentEnc, playerEnc) = round.split(" ")
-        val opponentChoice = opponentChoiceDecryption.decryptChoice(opponentEnc)
-        val playerChoice = playerChoiceDecryption.decryptChoice(playerEnc)
+        val opponentChoice: Rps = OpponentChoiceDecryption.decryptChoice(opponentEnc)
+        val playerChoice: Rps = PlayerChoiceDecryption.decryptChoice(playerEnc)
 
-        return when (playerChoice) {
-            Rps.ROCK -> when (opponentChoice) {
-                Rps.ROCK -> 1 + drawingScore
-                Rps.PAPER -> 1 + losingScore
-                Rps.SCISSOR -> 1 + winningScore
-            }
-
-            Rps.PAPER -> when (opponentChoice) {
-                Rps.ROCK -> 2 + winningScore
-                Rps.PAPER -> 2 + drawingScore
-                Rps.SCISSOR -> 2 + losingScore
-            }
-
-            Rps.SCISSOR -> when (opponentChoice) {
-                Rps.ROCK -> 3 + losingScore
-                Rps.PAPER -> 3 + winningScore
-                Rps.SCISSOR -> 3 + drawingScore
-            }
+        val choiceScore = playerChoice.score
+        val resultScore = when {
+            playerChoice == opponentChoice -> Result.DRAW.score
+            (playerChoice == Rps.ROCK && opponentChoice == Rps.SCISSOR) ||
+                    (playerChoice == Rps.PAPER && opponentChoice == Rps.ROCK) ||
+                    (playerChoice == Rps.SCISSOR && opponentChoice == Rps.PAPER) -> Result.WIN.score
+            else -> Result.LOSE.score
         }
+        return choiceScore + resultScore
     }
 
-    private fun calculateRoundScore2(round: String,
-                                    opponentChoiceDecryption: ChoiceDecryption<Rps>,
-                                    playerChoiceDecryption: ChoiceDecryption<Result>
-    ): Int {
+    private fun calculateRoundScore2(round: String): Int {
         val (opponentEnc, playerEnc) = round.split(" ")
-        val opponentChoice = opponentChoiceDecryption.decryptChoice(opponentEnc)
-        val playerChoice = playerChoiceDecryption.decryptChoice(playerEnc)
+        val opponentChoice: Rps = OpponentChoiceDecryption.decryptChoice(opponentEnc)
+        val playerChoice: Result = PlayerChoiceDecryption2.decryptChoice(playerEnc)
 
-        return when (playerChoice) {
-            Result.LOSE -> Result.LOSE.score() + when (opponentChoice) {
-                Rps.ROCK -> Rps.SCISSOR.score()
-                Rps.PAPER -> Rps.ROCK.score()
-                Rps.SCISSOR -> Rps.PAPER.score()
+        val resultScore = playerChoice.score
+        val choiceScore = when (playerChoice) {
+            Result.DRAW -> opponentChoice.score
+            Result.WIN -> when (opponentChoice) {
+                Rps.ROCK -> Rps.PAPER.score
+                Rps.PAPER -> Rps.SCISSOR.score
+                Rps.SCISSOR -> Rps.ROCK.score
             }
-            Result.WIN -> Result.WIN.score() + when (opponentChoice) {
-                Rps.ROCK -> Rps.PAPER.score()
-                Rps.PAPER -> Rps.SCISSOR.score()
-                Rps.SCISSOR -> Rps.ROCK.score()
-            }
-            Result.DRAW -> Result.DRAW.score() + when (opponentChoice) {
-                Rps.ROCK -> Rps.ROCK.score()
-                Rps.PAPER -> Rps.PAPER.score()
-                Rps.SCISSOR -> Rps.SCISSOR.score()
+            Result.LOSE -> when (opponentChoice) {
+                Rps.ROCK -> Rps.SCISSOR.score
+                Rps.PAPER -> Rps.ROCK.score
+                Rps.SCISSOR -> Rps.PAPER.score
             }
         }
+        return resultScore + choiceScore
     }
 }
 
