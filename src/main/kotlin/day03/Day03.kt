@@ -15,20 +15,8 @@ object Rucksack {
 object Group {
     fun getCommonItem(group: List<String>): Char {
         val rucksacks: List<Set<Char>> = group.map { it.toSet() }
-
-        for (c in 'a'..'z') {
-            if (rucksacks.all { it.contains(c) }) {
-                return c
-            }
-        }
-
-        for (c in 'A'..'Z') {
-            if (rucksacks.all { it.contains(c) }) {
-                return c
-            }
-        }
-
-        throw IllegalArgumentException("No common item found in group: $group")
+        return rucksacks.reduce { acc, set -> acc.intersect(set) }
+            .first()
     }
 }
 
