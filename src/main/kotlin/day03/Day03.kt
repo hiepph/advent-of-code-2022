@@ -4,19 +4,17 @@ import readLines
 
 object Rucksack {
     fun getCommonItem(rucksack: String): Char {
-        val compartmentSize = rucksack.length / 2
-        val firstCompartment = rucksack.substring(0, compartmentSize).toSet()
-        val secondCompartment = rucksack.substring(compartmentSize).toSet()
-
-        return firstCompartment.intersect(secondCompartment).first()
+        val compartments = rucksack.chunked(rucksack.length / 2)
+        return compartments.map{ it.toSet() }
+            .reduce { acc, set -> acc.intersect(set) }
+            .first()
     }
 }
 
 object Group {
     fun getCommonItem(group: List<String>): Char {
         val rucksacks: List<Set<Char>> = group.map { it.toSet() }
-        return rucksacks.reduce { acc, set -> acc.intersect(set) }
-            .first()
+        return rucksacks.reduce { acc, set -> acc.intersect(set) }.first()
     }
 }
 
