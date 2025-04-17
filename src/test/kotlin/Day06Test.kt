@@ -15,4 +15,9 @@ class Day06Test {
 
         assertEquals(expected = 1965, actual = Day06.part1(input))
     }
+
+    @Test
+    fun testPart2() {
+        assertEquals(expected = 2773, actual = Day06.part2(input))
+    }
 }
