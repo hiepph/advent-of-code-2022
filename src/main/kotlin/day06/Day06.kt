@@ -13,14 +13,8 @@ object Day06 {
     }
 
     private fun findMarker(input: String, numberOfDifferentCharacters: Int): Int {
-        for (i in 0..input.length - numberOfDifferentCharacters) {
-            val window = input.substring(i, i + numberOfDifferentCharacters)
-            if (window.toSet().size == numberOfDifferentCharacters) {
-                return i + numberOfDifferentCharacters
-            }
-        }
-
-        return -1
+        return input.windowed(numberOfDifferentCharacters)
+            .indexOfFirst { it.toSet().size == numberOfDifferentCharacters } + numberOfDifferentCharacters
     }
 }
 
