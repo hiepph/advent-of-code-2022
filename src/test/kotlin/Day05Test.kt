@@ -24,4 +24,10 @@ class Day05Test {
         assertEquals(expected = "CMZ", actual = Day05.part1(testInput, TestCrateInfra))
         assertEquals(expected = "BSDMQFLSP", actual = Day05.part1(input, InputCrateInfra))
     }
+
+    @Test
+    fun testPart2() {
+        assertEquals(expected = "MCD", actual = Day05.part2(testInput, TestCrateInfra))
+        assertEquals(expected = "PGSQBFLDP", actual = Day05.part2(input, InputCrateInfra))
+    }
 }
