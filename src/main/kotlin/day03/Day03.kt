@@ -4,7 +4,7 @@ import readLines
 
 object Rucksack {
     fun getCommonItem(rucksack: String): Char {
-        val compartments: List<Set<Char>> = rucksack.chunked(rucksack.length / 2).map { it.toSet( )}
+        val compartments: List<Set<Char>> = rucksack.chunked(rucksack.length / 2).map { it.toSet() }
         return compartments.reduce { acc, set -> acc.intersect(set) }.first()
     }
 }
