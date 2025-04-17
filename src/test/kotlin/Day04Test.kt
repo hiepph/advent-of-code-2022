@@ -11,4 +11,10 @@ class Day04Test {
         assertEquals(expected = 2, actual = Day04.part1(testInput))
         assertEquals(expected = 560, actual = Day04.part1(input))
     }
+
+    @Test
+    fun testPart2() {
+        assertEquals(expected = 4, actual = Day04.part2(testInput))
+        assertEquals(expected = 839, actual = Day04.part2(input))
+    }
 }
