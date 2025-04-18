@@ -22,10 +22,8 @@ object Day07 {
     }
 
     private fun findFiles(root: Node, predicate: (Node) -> Boolean): List<Node> {
-        val result = mutableListOf<Node>()
-        if (predicate(root)) result.add(root)
-        root.children.values.forEach { result.addAll(findFiles(it, predicate)) }
-        return result
+        val matchingNodes =  if (predicate(root)) listOf(root) else emptyList()
+        return matchingNodes + root.children.values.flatMap { findFiles(it, predicate) }
     }
 
     private fun buildFileSystem(lines: List<String>): Node {
