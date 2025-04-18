@@ -49,11 +49,11 @@ import {read_input_func}
 
 object Day{day_number_formatted} {{
     fun part1({input_parameter}): Int {{
-        return 0
+        return -1
     }}
 
     fun part2({input_parameter}): Int {{
-        return 0
+        return -1
     }}
 }}
 
