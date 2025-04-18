@@ -12,6 +12,15 @@ object Day07 {
             .sumOf { it.size }
     }
 
+    fun part2(lines: List<String>): Int {
+        val root = buildFileSystem(lines)
+        val unusedSpace = 70_000_000 - root.size
+
+        return findFiles(root, Node::isDir)
+            .sortedBy { it.size }
+            .find { it.size + unusedSpace >= 30_000_000 }?.size ?: -1
+    }
+
     private fun findFiles(root: Node, predicate: (Node) -> Boolean): List<Node> {
         val result = mutableListOf<Node>()
         if (predicate(root)) result.add(root)
@@ -59,4 +68,5 @@ object Day07 {
 fun main() {
     val input = readLines("Day07")
     printResult("1", Day07.part1(input))
+    printResult("2", Day07.part2(input))
 }

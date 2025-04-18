@@ -5,7 +5,9 @@ class Node {
     val isDir: Boolean
     val children: MutableMap<String, Node> = mutableMapOf()
     var size: Int
+        private set
     var parent: Node? = null
+        private set
 
     constructor(name: String, size: Int, isDir: Boolean) {
         this.name = name
