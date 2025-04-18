@@ -19,43 +19,39 @@ class TreeMap {
         }
     }
 
-    fun countVisibleTrees(): Int {
-        var result = 0
-
-        trees.forEachIndexed { row, heights ->
-            heights.forEachIndexed { column, height ->
-                if (isAtEdge(row, column)) {
-                    result++
-                } else  {
-                    val left = getLeftTrees(row, column)
-                    val right = getRightTrees(row, column)
-                    val top = getTopTrees(row, column)
-                    val bottom = getBottomTrees(row, column)
-
-                    if (left.all { it < height } || right.all { it < height } || top.all { it < height } || bottom.all { it < height }) {
-                        result++
-                    }
-                }
-            }
+    fun getAllPositions(): List<Pair<Int, Int>> {
+        return (0 until rowLength).flatMap { row ->
+            (0 until columnLength).map { column -> Pair(row, column) }
         }
-
-        return result
     }
 
-    fun calculateScenicScores(): List<List<Int>> {
-        return trees.mapIndexed() { row, heights ->
-            heights.mapIndexed() { column, height ->
-                if (isAtEdge(row, column)) {
-                    0
-                } else {
-                    listOf(
-                        getLeftTrees(row, column).reversed(),
-                        getRightTrees(row, column),
-                        getTopTrees(row, column).reversed(),
-                        getBottomTrees(row, column)
-                    ).map { calculateScoreFromSide(it, height) }
-                    .product()
-                }
+    fun countVisibleTrees(): Int {
+        return getAllPositions().count { (row, column) ->
+            val height = trees[row][column]
+
+            isAtEdge(row, column) || listOf(
+                getLeftTrees(row, column),
+                getRightTrees(row, column),
+                getTopTrees(row, column),
+                getBottomTrees(row, column)
+            ).any { lineOfTrees ->  lineOfTrees.all { it < height } }
+        }
+    }
+
+    fun calculateScenicScores(): List<Int> {
+        return getAllPositions().map { (row, column) ->
+            val height = trees[row][column]
+
+            if (isAtEdge(row, column)) {
+                0
+            } else {
+                listOf(
+                    getLeftTrees(row, column).reversed(),
+                    getRightTrees(row, column),
+                    getTopTrees(row, column).reversed(),
+                    getBottomTrees(row, column)
+                ).map { calculateScoreFromSide(it, height) }
+                .product()
             }
         }
     }

@@ -12,7 +12,6 @@ object Day08 {
     fun part2(input: String): Int {
         val map = TreeMap(input)
         return map.calculateScenicScores()
-            .flatten()
             .max()
     }
 }
