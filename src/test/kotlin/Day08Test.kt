@@ -9,12 +9,12 @@ class Day08Test {
     @Test
     fun testPart1() {
         assertEquals(21, Day08.part1(testInput))
-        // assertEquals(0, Day08.part1(input))
+         assertEquals(1684, Day08.part1(input))
     }
 
     @Test
     fun testPart2() {
-        assertEquals(0, Day08.part2(testInput))
-        // assertEquals(0, Day08.part2(input))
+        assertEquals(8, Day08.part2(testInput))
+         assertEquals(486540, Day08.part2(input))
     }
 }
