@@ -30,3 +30,8 @@ fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteA
  * The cleaner shorthand for printing output.
  */
 fun Any?.println() = println(this)
+
+/**
+ * Product of all elements
+ */
+fun List<Int>.product() = fold(1) { acc, i -> acc * i }
