@@ -23,9 +23,9 @@ data class Point(val x: Int, val y: Int) {
     fun moveTowards(other: Point): Point {
         // up: + y sign
         // down: - y sign
-        // right: + x sign
         // left: - x sign
-        return copy(
+        // right: + x sign
+        return Point(
             x = (other.x - x).sign + x,
             y = (other.y - y).sign + y
         )
@@ -33,18 +33,22 @@ data class Point(val x: Int, val y: Int) {
 }
 
 object Day09 {
-    fun part1(lines: List<String>): Int {
+    fun part1(lines: List<String>) = followHead(lines, 2)
+    fun part2(lines: List<String>) = followHead(lines, 10)
+
+    private fun followHead(lines: List<String>, knots: Int): Int {
         val tailPositions = mutableSetOf(Point(0, 0))
 
-        var tail = Point(0, 0)
-        var head = Point(0, 0)
+        val rope = Array(knots) { Point(0, 0) }
 
-        headMovements(lines).forEach { headMovement ->
-            head = head.move(headMovement)
-            if (!tail.touches(head)) {
-                tail = tail.moveTowards(head)
-                tailPositions.add(tail)
+        headMovements(lines).forEach { headDirection->
+            rope[0] = rope[0].move(headDirection)
+            rope.indices.windowed(2).forEach { (head, tail) ->
+                if (!rope[tail].touches(rope[head])) {
+                    rope[tail] = rope[tail].moveTowards(rope[head])
+                }
             }
+            tailPositions.add(rope.last())
         }
 
         return tailPositions.size
@@ -58,13 +62,10 @@ object Day09 {
         }
     }
 
-    fun part2(lines: List<String>): Int {
-        return -1
-    }
 }
 
 fun main() {
     val input = readLines("Day09")
     printResult("1", Day09.part1(input))
-    // printResult("2", Day09.part2(input))
+    printResult("2", Day09.part2(input))
 }
