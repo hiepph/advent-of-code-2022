@@ -5,6 +5,12 @@ import readLines
 
 data class Cpu(var cycle: Int, var register: Int) {
     val signals = mutableListOf<Pair<Int, Int>>()
+    var crt: Array<Char>
+
+    init {
+        crt = Array(240) { '.' }
+        crt[0] = '#'
+    }
 
     fun execute(instruction: String) {
         when (instruction) {
@@ -18,13 +24,26 @@ data class Cpu(var cycle: Int, var register: Int) {
         }
     }
 
+    fun showCrt(): String {
+        return crt.toList().windowed(40, 40).joinToString("\n") { it.joinToString("") }
+    }
+
     private fun increaseCycle() {
         cycle++
+
         if ((cycle - 20) % 40 == 0) {
             signals.add(Pair(cycle, register))
         }
+
+        drawSprite(cycle)
     }
 
+    private fun drawSprite(cycle: Int) {
+        val pixel = (cycle - 1) % 40
+        if (pixel in (register - 1)..(register + 1)) {
+            crt[cycle - 1] = '#'
+        }
+    }
 }
 
 object Day10 {
@@ -34,13 +53,15 @@ object Day10 {
         return cpu.signals.sumOf { it.first * it.second }
     }
 
-    fun part2(lines: List<String>): Int {
-        return -1
+    fun part2(lines: List<String>): String {
+        val cpu = Cpu(cycle = 1, register = 1)
+        lines.forEach { instruction -> cpu.execute(instruction) }
+        return cpu.showCrt()
     }
 }
 
 fun main() {
     val input = readLines("Day10")
     printResult("1", Day10.part1(input))
-    // printResult("2", Day10.part2(input))
+    printResult("2", "\n" + Day10.part2(input))
 }
