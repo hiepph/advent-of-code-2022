@@ -25,20 +25,26 @@ data class Cpu(var cycle: Int, var register: Int) {
     }
 
     fun showCrt(): String {
-        return crt.toList().windowed(40, 40).joinToString("\n") { it.joinToString("") }
+        return crt.toList()
+            .chunked(40)
+            .joinToString("\n") { it.joinToString("") }
     }
 
     private fun increaseCycle() {
         cycle++
 
+        addSignal()
+        drawSprite()
+    }
+
+    fun addSignal() {
         if ((cycle - 20) % 40 == 0) {
             signals.add(Pair(cycle, register))
         }
 
-        drawSprite(cycle)
     }
 
-    private fun drawSprite(cycle: Int) {
+    private fun drawSprite() {
         val pixel = (cycle - 1) % 40
         if (pixel in (register - 1)..(register + 1)) {
             crt[cycle - 1] = '#'
